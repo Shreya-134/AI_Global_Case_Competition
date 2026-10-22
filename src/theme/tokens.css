@@ -1,0 +1,71 @@
+:root {
+  color-scheme: light;
+
+  /* Brand and surface colors */
+  --color-purple-900: #210b2c;
+  --color-wisteria-500: #bc96e6;
+  --color-sunglow-500: #ffd166;
+  --color-page: #f1eaf9;
+  --color-card: #fffcff;
+  --color-text: #210b2c;
+  --color-text-muted: #675773;
+  --color-text-on-dark: #fffcff;
+  --color-border: #e3d7ee;
+
+  /* Supporting colors for reusable component states */
+  --color-lavender-100: #eee4f8;
+  --color-lavender-200: #e3d2f4;
+  --color-yellow-100: #fff3cf;
+  --color-neutral-100: #f7f4f8;
+  --color-danger-600: #a52a4a;
+  --color-focus-ring: #7a48ad;
+  --color-overlay: rgb(33 11 44 / 12%);
+
+  /* Typography */
+  --font-heading: "Plus Jakarta Sans", "Avenir Next", Avenir, sans-serif;
+  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: clamp(1.75rem, 5vw, 2.5rem);
+  --line-height-tight: 1.2;
+  --line-height-body: 1.6;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shape and elevation */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-pill: 999px;
+  --shadow-sm: 0 2px 8px rgb(33 11 44 / 8%);
+  --shadow-md: 0 8px 24px rgb(33 11 44 / 10%);
+
+  /* Interaction */
+  --touch-target-min: 2.75rem;
+  --focus-ring: 0 0 0 3px rgb(188 150 230 / 55%);
+  --disabled-opacity: 0.52;
+  --pressed-transform: translateY(1px);
+  --transition-fast: 150ms ease;
+  --content-max-width: 75rem;
+}
+
