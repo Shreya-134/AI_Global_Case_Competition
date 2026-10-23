@@ -1,136 +1,114 @@
 /*
  * HOMEPAGE CONTENT
- * Edit product names, button labels, demo events, and animation speed here.
- * Homepage components read from this file so content is not duplicated in layouts.
+ * Change homepage copy, slide content, destinations, and timing here.
  */
 
+// Change the shared product name here.
 const productName = "Your Product Name";
-
-// Leave this empty to derive the assistant name as `${productName} AI`.
-const assistantNameOverride = "Campus AI";
 
 export const homepageConfig = {
   productName,
-  assistantName: assistantNameOverride || `${productName} AI`,
-  metaDescription: "A sample preview of a personalized campus event planning experience.",
+  metaDescription: "Discover events, meet classmates, and make time for meaningful opportunities.",
   headline: "Your next connection starts here.",
-  subtitle: "Find campus events that fit your interests and your schedule.",
+  headlineHighlight: "connection",
+  description: "Discover events, find your people, and make time for what matters.",
   exploreButtonLabel: "Explore events",
   authButtonLabel: "Sign up / Log in",
-  dashboardTitle: "Your personalized week",
-  chatPlaceholder: "Ask about events...",
-  previewLabel: "Example preview",
 
-  // Add actual application routes here when the Events and Auth pages exist.
+  // Add application routes when the Events and Auth pages exist.
   destinations: {
     exploreEvents: null,
     authentication: null,
   },
 
-  labels: {
-    interestGroup: "Interests",
-    availabilityGroup: "Availability",
-    calendar: "Sample weekly calendar",
-    assistantPanel: "Planning assistant",
-    demoBadge: "Demo",
-    routePending: "Destination route coming soon",
-    quickSuggestions: "Try a preset",
-    pause: "Pause demo",
-    resume: "Resume demo",
-    replay: "Replay demo",
-    reducedMotion: "Animation off",
-    typing: "is finding matches",
-    eventLocationSeparator: "·",
-    timezone: "PT",
-    studentLabel: "Student",
-    profileInitials: "MS",
-  },
-
-  interests: ["AI & ML", "Analytics", "Product", "Networking"],
-  availability: ["After 3 PM", "Wednesday–Friday", "4 hours this week"],
-
-  calendar: {
-    startHour: 15,
-    endHour: 19,
-    days: [
-      { id: "wed", shortLabel: "Wed", longLabel: "Wednesday", dateLabel: "Oct 28" },
-      { id: "thu", shortLabel: "Thu", longLabel: "Thursday", dateLabel: "Oct 29" },
-      { id: "fri", shortLabel: "Fri", longLabel: "Friday", dateLabel: "Oct 30" },
+  carousel: {
+    eyebrow: "A little preview of what’s possible",
+    exampleLabel: "Example preview",
+    previousLabel: "Show previous feature",
+    nextLabel: "Show next feature",
+    pauseLabel: "Pause slideshow",
+    playLabel: "Resume slideshow",
+    reducedMotionLabel: "Autoplay off",
+    slideLabel: "Feature",
+    slides: [
+      {
+        id: "ai-assistance",
+        navigationLabel: "AI assistance",
+        title: "Meet your AI event assistant",
+        description: "Tell us what you’re looking for. Discover events that fit.",
+        illustration: "ai",
+      },
+      {
+        id: "integrated-calendar",
+        navigationLabel: "Integrated calendar",
+        title: "Make room for the right events",
+        description: "See opportunities alongside your classes and commitments.",
+        illustration: "calendar",
+      },
+      {
+        id: "carpool-connections",
+        navigationLabel: "Carpool connections",
+        title: "Get there together",
+        description: "Connect with USC MSBA classmates attending the same off-campus event.",
+        illustration: "carpool",
+      },
     ],
   },
 
-  // Change demo event names, days, times, and locations here.
-  events: [
-    {
-      id: "ai-mixer",
-      name: "AI & Analytics Mixer",
-      dayId: "wed",
-      start: "16:00",
-      end: "17:15",
-      location: "Marshall Courtyard",
-      tone: "lavender",
-    },
-    {
-      id: "data-roundtable",
-      name: "Women in Data Roundtable",
-      dayId: "thu",
-      start: "17:00",
-      end: "18:15",
-      location: "Fertitta Hall",
-      tone: "yellow",
-    },
-    {
-      id: "product-night",
-      name: "Product & Tech Night",
-      dayId: "fri",
-      start: "15:30",
-      end: "17:00",
-      location: "Online",
-      tone: "lavender",
-    },
-    {
-      id: "alumni-social",
-      name: "MSBA Alumni Social",
-      dayId: "wed",
-      start: "17:30",
-      end: "18:30",
-      location: "Popovich Hall",
-      tone: "yellow",
-    },
-  ],
+  demoChat: {
+    userLabel: "Student",
+    assistantLabel: "Event assistant",
+    userMessage: "Any AI networking events after class?",
+    typingLabel: "Finding an idea",
+    assistantMessage: "Here are a few ideas for your week.",
+  },
 
-  // Demo chat copy and preset results stay linked to event IDs above.
-  assistantGreeting: "Hi! I can build a sample event plan around your interests.",
-  assistantResponseLead: "I found these sample matches for your week:",
-  presets: [
-    {
-      id: "after-three",
-      label: "Networking + tech after 3 PM",
-      userMessage: "Find networking and tech events after 3 PM.",
-      eventIds: ["ai-mixer", "data-roundtable", "product-night"],
-    },
-    {
-      id: "wednesday",
-      label: "Wednesday networking",
-      userMessage: "Show me networking events on Wednesday after class.",
-      eventIds: ["ai-mixer", "alumni-social"],
-    },
-    {
-      id: "virtual",
-      label: "Virtual tech event",
-      userMessage: "Find a virtual tech event after 3 PM.",
-      eventIds: ["product-night"],
-    },
-  ],
+  // This one object is shared by the AI and calendar slides.
+  exampleEvent: {
+    name: "AI & Analytics Mixer",
+    date: "2026-10-29",
+    startTime: "18:00",
+    endTime: "20:00",
+    timezone: "America/Los_Angeles",
+    location: "Downtown Los Angeles",
+  },
 
-  // Animation timing is in milliseconds. Increase readingPauseMs for a slower loop.
+  calendar: {
+    importLabel: "Calendar availability",
+    importStatus: "Illustrative import",
+    days: [
+      { id: "wed", date: "2026-10-28", shortLabel: "Wed" },
+      { id: "thu", date: "2026-10-29", shortLabel: "Thu" },
+      { id: "fri", date: "2026-10-30", shortLabel: "Fri" },
+    ],
+    commitments: [
+      { id: "class-wed", dayId: "wed", label: "Class", slot: "afternoon" },
+      { id: "work-thu", dayId: "thu", label: "Project", slot: "afternoon" },
+      { id: "class-fri", dayId: "fri", label: "Class", slot: "morning" },
+    ],
+  },
+
+  carpool: {
+    pickupLabel: "Campus meeting point",
+    pickup: "USC University Park",
+    destinationLabel: "Event destination",
+    destination: "Downtown Los Angeles",
+    connectionLabel: "Same event. Shared ride.",
+    disclaimer: "Illustrative classmates and route—not a live ride match.",
+    avatars: [
+      { id: "maya", initials: "MK", label: "Fictional classmate Maya" },
+      { id: "dev", initials: "DL", label: "Fictional classmate Dev" },
+      { id: "ana", initials: "AR", label: "Fictional classmate Ana" },
+    ],
+  },
+
+  // Change autoplay and transition timing here. Values are milliseconds.
   animation: {
-    greetingMs: 1400,
-    userMessageMs: 1200,
-    typingMs: 1300,
-    responseLeadMs: 700,
-    highlightMs: 1600,
-    readingPauseMs: 5200,
+    autoplayMs: 8000,
+    transitionMs: 450,
+    chatUserDelayMs: 350,
+    chatTypingDelayMs: 1150,
+    chatResponseDelayMs: 2200,
+    chatEventDelayMs: 3100,
   },
 };
-

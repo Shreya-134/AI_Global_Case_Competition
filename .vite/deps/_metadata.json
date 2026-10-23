@@ -1,0 +1,34 @@
+{
+  "hash": "4848a7f7",
+  "configHash": "287c6334",
+  "lockfileHash": "59e43e86",
+  "browserHash": "2cf9cfd0",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "46866b13",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "224217fa",
+      "needsInterop": true
+    },
+    "ical.js": {
+      "src": "../../node_modules/ical.js/dist/ical.js",
+      "file": "ical__js.js",
+      "fileHash": "1e271914",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-7TAPD7MJ": {
+      "file": "chunk-7TAPD7MJ.js"
+    },
+    "chunk-TKZWA4SW": {
+      "file": "chunk-TKZWA4SW.js"
+    }
+  }
+}
