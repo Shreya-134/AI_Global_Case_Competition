@@ -13,10 +13,7 @@ import {
   UsersRound,
   X,
 } from "lucide-react";
-import {
-  DEMO_DISCUSSIONS,
-  DISCUSSION_CATEGORIES,
-} from "../data/communityDiscussions";
+import { DISCUSSION_CATEGORIES } from "../data/communityDiscussions";
 import DiscussionCard from "./DiscussionCard.jsx";
 import {
   loadCommunityState,
@@ -46,16 +43,7 @@ function CommunityPage() {
   const [title, setTitle] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [body, setBody] = useState("");
-  const discussions = useMemo(
-    () => [
-      ...communityState.posts,
-      ...DEMO_DISCUSSIONS.map((item) => ({
-        ...item,
-        postedAt: item.postedAt,
-      })),
-    ],
-    [communityState.posts],
-  );
+  const discussions = communityState.posts;
   const filteredDiscussions = useMemo(() => {
     const query = search.trim().toLocaleLowerCase();
     return discussions.filter((item) => {
@@ -349,7 +337,7 @@ function CommunityPage() {
             </div>
             <span className="demo-content-label">
               <CircleHelp size={15} aria-hidden="true" />
-              Fictional students, posts, events & reply counts · Demo only
+              Local demo discussions · Stored in this browser
             </span>
           </div>
           <div className="category-filters" aria-label="Filter by category">

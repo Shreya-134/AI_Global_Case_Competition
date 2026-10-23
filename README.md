@@ -12,7 +12,7 @@ The React/Vite app opens a simple, centered email-and-password demo sign-in. New
 profile setup, editable review, versioned browser persistence, draft recovery,
 same-browser simulated login, and a profile completion preview. The Community
 Discussion Board is available at `/community`; it includes clearly labeled
-fictional sample discussions, filters, local demo posts and replies, and saved
+an initially empty board, filters, local demo posts and replies, and saved
 discussion state. Its content stays in this browser and is not shared with
 classmates or a backend. The dashboard, event discovery, Assistant, and calendar
 remain planned features.

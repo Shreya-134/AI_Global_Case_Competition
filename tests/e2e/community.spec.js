@@ -13,37 +13,43 @@ test("Community supports combined filters, replies, saves, and local demo posts"
   await expect(
     page.getByRole("heading", { name: "Community Board" }),
   ).toBeVisible();
-  await expect(page.locator(".discussion-card")).toHaveCount(4);
-
-  await page.getByRole("button", { name: /Events & Meetups/ }).click();
-  await expect(page.locator(".discussion-card")).toHaveCount(1);
-  await expect(
-    page.getByText("Anyone going to the LA Product & AI Networking Night?"),
-  ).toBeVisible();
-
-  await page.getByLabel("Community group").selectOption("Career Changers");
+  await expect(page.locator(".discussion-card")).toHaveCount(0);
   await expect(page.getByText("No conversations found")).toBeVisible();
-  await page.getByRole("button", { name: "All", exact: true }).click();
-  await expect(
-    page.getByText(
-      "Moving into entertainment analytics from a non-tech background",
-    ),
-  ).toBeVisible();
 
-  await page.getByLabel("Community group").selectOption("All groups");
-  await page.getByLabel("Search conversations").fill("Internships");
+  async function createPost(title, category, body) {
+    await page.getByRole("button", { name: "Start a Discussion" }).click();
+    await page.getByLabel("Discussion title").fill(title);
+    await page
+      .getByRole("combobox", { name: "Category", exact: true })
+      .selectOption(category);
+    await page.getByRole("textbox", { name: /^Message/ }).fill(body);
+    await page.getByRole("button", { name: "Publish Demo Post" }).click();
+  }
+  await createPost(
+    "Networking together",
+    "Events & Meetups",
+    "Meet analytics professionals over coffee.",
+  );
+  await page.getByLabel("Community group").selectOption("Career Changers");
+  await createPost(
+    "Portfolio review",
+    "Career Opportunities",
+    "Share project feedback.",
+  );
   await expect(page.locator(".discussion-card")).toHaveCount(1);
-  await expect(
-    page.getByText("Summer 2027 internship leads — product analytics"),
-  ).toBeVisible();
+  await page.getByRole("button", { name: /Events & Meetups/ }).click();
+  await expect(page.getByText("No conversations found")).toBeVisible();
+  await page.getByLabel("Community group").selectOption("All groups");
   await page.getByLabel("Search conversations").fill("professionals");
   await expect(page.locator(".discussion-card")).toHaveCount(1);
-  await expect(page.getByText("Sophia Chen")).toBeVisible();
+  await page.getByLabel("Search conversations").fill("Portfolio");
+  await expect(page.locator(".discussion-card")).toHaveCount(0);
+  await page.getByRole("button", { name: "All", exact: true }).click();
+  await expect(page.locator(".discussion-card")).toHaveCount(1);
   await page.getByLabel("Clear search").click();
-
   await page
     .locator(".discussion-summary")
-    .filter({ hasText: "Sophia Chen" })
+    .filter({ hasText: "Networking together" })
     .click();
   await page.getByLabel("Add a reply").fill("   ");
   await page.getByRole("button", { name: "Post Demo Reply" }).click();
@@ -52,7 +58,7 @@ test("Community supports combined filters, replies, saves, and local demo posts"
   );
   await page.getByLabel("Add a reply").fill("I would love to join!");
   await page.getByRole("button", { name: "Post Demo Reply" }).click();
-  await expect(page.getByText("13 replies")).toBeVisible();
+  await expect(page.getByText("1 replies")).toBeVisible();
   await expect(page.getByText("You · Just now")).toBeVisible();
 
   await page.getByRole("button", { name: "Save discussion" }).click();
@@ -61,12 +67,12 @@ test("Community supports combined filters, replies, saves, and local demo posts"
   ).toHaveAttribute("aria-pressed", "true");
   await page
     .locator(".discussion-summary")
-    .filter({ hasText: "Sophia Chen" })
+    .filter({ hasText: "Networking together" })
     .click();
   await expect(page.getByLabel("Add a reply")).toHaveCount(0);
   await page
     .locator(".discussion-summary")
-    .filter({ hasText: "Sophia Chen" })
+    .filter({ hasText: "Networking together" })
     .click();
   await expect(page.getByText("I would love to join!")).toBeVisible();
 
@@ -82,13 +88,13 @@ test("Community supports combined filters, replies, saves, and local demo posts"
     .fill("Would anyone like to review a project portfolio together?");
   await page.getByRole("button", { name: "Publish Demo Post" }).click();
   await expect(page.getByText("Demo portfolio review")).toBeVisible();
-  await expect(page.getByText("You (Demo)")).toBeVisible();
+  await expect(page.getByText("You (Demo)").first()).toBeVisible();
 
   await page.reload();
   await expect(page.getByText("Demo portfolio review")).toBeVisible();
   await page
     .locator(".discussion-summary")
-    .filter({ hasText: "Sophia Chen" })
+    .filter({ hasText: "Networking together" })
     .click();
   await expect(page.getByText("I would love to join!")).toBeVisible();
   await expect(
@@ -98,7 +104,7 @@ test("Community supports combined filters, replies, saves, and local demo posts"
   await page.reload();
   await page
     .locator(".discussion-summary")
-    .filter({ hasText: "Sophia Chen" })
+    .filter({ hasText: "Networking together" })
     .click();
   await expect(
     page.getByRole("button", { name: "Save discussion" }),
