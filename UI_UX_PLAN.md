@@ -7,8 +7,8 @@ and availability into a realistic weekly networking plan. The experience should
 feel supportive and transparent: recommendations are explained, proposed calendar
 changes require approval, and simulated capabilities are clearly labeled.
 
-This document guides future page design. It does not implement a homepage or any
-other screen.
+This document guides future page design. Signup and the Community Discussion
+Board are implemented prototypes; other product screens remain planned.
 
 ## Experience principles
 
@@ -27,11 +27,13 @@ other screen.
 
 ## Mobile information architecture
 
-The public experience includes the homepage, sample event discovery, event detail,
-sign-up, and simulated login. After login, persistent bottom navigation provides
-access to Home, Events, Assistant, Community, and Profile. The Assistant should
-be visually prominent without obscuring the other destinations. Weekly calendar
-review is reached from Home and the Assistant planning flow.
+The public experience is planned to include the homepage, sample event discovery,
+event detail, sign-up, and simulated login. The Community Discussion Board
+prototype is available at `/community`, with local demo discussions and persistent
+bottom navigation. Other dashboard destinations are not implemented yet. When
+available, the full app navigation should provide Home, Events, Assistant,
+Community, and Profile. Weekly calendar review is reached from Home and the
+Assistant planning flow.
 
 On wider screens, the same destinations may move to a top or side navigation while
 preserving labels, order, and task continuity.
@@ -113,11 +115,11 @@ approval model on larger screens.
 1. Validate the public discovery and onboarding flow.
 2. Design dashboard summaries and event discovery using realistic sample states.
 3. Prototype Assistant interpretation, plan revision, and approval as one journey.
-4. Add community sharing and independent consent controls.
+4. Extend the Community prototype with event sharing and independent consent
+   controls.
 5. Test the complete flow on narrow mobile and desktop widths with keyboard and
    screen-reader checks.
 
 Before visual polish, verify that users can distinguish proposed versus approved
 events, understand why an event was recommended, identify simulated behavior, and
 change privacy choices without losing other work.
-

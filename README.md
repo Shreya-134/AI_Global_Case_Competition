@@ -6,12 +6,16 @@ A mobile-first career networking and event-planning prototype for the **USC Mars
 
 ## Project status
 
-**Signup and onboarding implemented. Other product features remain planned.**
+**Signup, onboarding, and the Community Discussion Board prototype are implemented.**
 
 The React/Vite app opens a simple, centered email-and-password demo sign-in. New users choose **Create a profile** to start signup. Passwords are sample inputs only and are never stored. The public demo password is checked locally; passwords for locally created profiles are not verified. It includes a five-step
 profile setup, editable review, versioned browser persistence, draft recovery,
-same-browser simulated login, and a profile completion preview. The dashboard,
-event discovery, Assistant, calendar, and community are not implemented yet.
+same-browser simulated login, and a profile completion preview. The Community
+Discussion Board is available at `/community`; it includes clearly labeled
+fictional sample discussions, filters, local demo posts and replies, and saved
+discussion state. Its content stays in this browser and is not shared with
+classmates or a backend. The dashboard, event discovery, Assistant, and calendar
+remain planned features.
 
 The rest of this README describes the full intended product scope.
 
@@ -19,7 +23,7 @@ The interface fills the screen on mobile, with safe-area spacing and touch-frien
 controls. Wider screens display the same flow inside a phone-sized preview frame.
 It remains a mobile web prototype; native packaging is future work.
 
-## Run the signup prototype
+## Run the prototype
 
 To demonstrate login immediately, select **Use demo account**, then **Log in**.
 The public sample credentials are `demo@msbahub.example` / `Marshall2027!`.
@@ -34,7 +38,13 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite and choose **Create a profile**. Use sample details, choose preferences and at
+Open the local URL printed by Vite and choose **Community board** in the signup
+header, or navigate directly to `/community`. The Community page does not require
+a profile or send messages to classmates. Select **Start a Discussion** to try
+creating a local demo post, then open a thread to try demo replies and saving.
+All posts, replies, and saved-discussion state are stored in this browser only.
+
+To try signup, choose **Create a profile**. Use sample details, choose preferences and at
 least one availability block, review, and save. Refresh during setup to resume the
 draft. After saving, use **Try demo login** with the same email and any sample password to return to the
 profile stored in that browser. This provides no real authentication. Profile
@@ -47,9 +57,10 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Storage tests cover draft/profile separation, corrupt data, unavailable storage,
-and privacy defaults. Browser tests cover onboarding, validation, editing,
-refresh recovery, simulated login, keyboard entry, and 320px/desktop layouts.
+Storage tests cover profile and community persistence, corrupt data, unavailable
+storage, and privacy defaults. Browser tests cover onboarding, Community
+filtering, local posts/replies/saves, refresh recovery, keyboard entry, and
+320px/desktop layouts.
 The Google Fonts stylesheet is optional; system fonts provide an offline fallback.
 
 ## Product goals

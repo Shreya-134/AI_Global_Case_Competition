@@ -515,6 +515,27 @@ footer {
 footer > span {
   font-size: 9px;
 }
+.community-entry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--purple-dark);
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.community-entry:hover {
+  background: var(--lavender);
+}
+.community-entry span {
+  white-space: nowrap;
+}
 .demo-account {
   background: #f7f3fb;
   border: 1px solid var(--border);
@@ -759,6 +780,36 @@ footer {
   border: 0;
   padding: 4px 24px calc(20px + env(safe-area-inset-bottom, 0px));
   text-align: center;
+}
+@media (max-width: 420px) {
+  .site-header {
+    gap: 8px;
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+  .brand {
+    min-width: 0;
+    gap: 7px;
+    font-size: 17px;
+  }
+  .brand-mark {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+  }
+  .brand small {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  .community-entry {
+    width: 42px;
+    min-width: 42px;
+    padding: 0;
+    font-size: 0;
+  }
+  .community-entry svg {
+    flex-shrink: 0;
+  }
 }
 footer > span {
   font-size: 10px;

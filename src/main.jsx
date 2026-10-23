@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Eye,
   EyeOff,
+  UsersRound,
 } from "lucide-react";
 import {
   browserStorage,
@@ -24,6 +25,7 @@ import {
   DEMO_PASSWORD,
   createDemoProfile,
 } from "./data/demoAccount";
+import CommunityPage from "./pages/Community.jsx";
 
 const choices = {
   skills: [
@@ -260,6 +262,14 @@ function App() {
             opportunity<span className="brand-light">hub</span>
             <small>USC MARSHALL · MSBA 2027</small>
           </span>
+        </a>
+        <a
+          className="community-entry"
+          href="/community"
+          aria-label="Open the Community board"
+        >
+          <UsersRound size={17} aria-hidden="true" />
+          <span>Community board</span>
         </a>
       </header>
       <main className="layout">
@@ -739,4 +749,8 @@ function App() {
     </div>
   );
 }
-createRoot(document.getElementById("root")).render(<App />);
+const Root =
+  window.location.pathname.replace(/\/+$/, "") === "/community"
+    ? CommunityPage
+    : App;
+createRoot(document.getElementById("root")).render(<Root />);
