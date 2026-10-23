@@ -6,11 +6,51 @@ A mobile-first career networking and event-planning prototype for the **USC Mars
 
 ## Project status
 
-**Planning only. No application code has been implemented.**
+**Signup and onboarding implemented. Other product features remain planned.**
 
-The repository was inspected before creating this plan. It contained one initialization commit on `homepage`, with no application files, framework, routes, dependencies, components, or existing README. The `main` branch was created for this project plan. There is currently no app to run, build, or test.
+The React/Vite app opens a simple, centered email-and-password demo sign-in. New users choose **Create a profile** to start signup. Passwords are sample inputs only and are never stored. The public demo password is checked locally; passwords for locally created profiles are not verified. It includes a five-step
+profile setup, editable review, versioned browser persistence, draft recovery,
+same-browser simulated login, and a profile completion preview. The dashboard,
+event discovery, Assistant, calendar, and community are not implemented yet.
 
-This README captures the implementation plan based on the supplied project brief. Application development is a later phase.
+The rest of this README describes the full intended product scope.
+
+The interface fills the screen on mobile, with safe-area spacing and touch-friendly
+controls. Wider screens display the same flow inside a phone-sized preview frame.
+It remains a mobile web prototype; native packaging is future work.
+
+## Run the signup prototype
+
+To demonstrate login immediately, select **Use demo account**, then **Log in**.
+The public sample credentials are `demo@msbahub.example` / `Marshall2027!`.
+The demo checks that password locally and opens Alex Morgan’s sample profile
+with a success message and logout action. It does not replace your saved profile;
+the demo session ends on logout or refresh. This is not production authentication.
+
+Use Node.js 22 or newer and npm:
+
+```sh
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite and choose **Create a profile**. Use sample details, choose preferences and at
+least one availability block, review, and save. Refresh during setup to resume the
+draft. After saving, use **Try demo login** with the same email and any sample password to return to the
+profile stored in that browser. This provides no real authentication. Profile
+completion leads to a clearly labeled preview; the full dashboard is future work.
+
+```sh
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
+
+Storage tests cover draft/profile separation, corrupt data, unavailable storage,
+and privacy defaults. Browser tests cover onboarding, validation, editing,
+refresh recovery, simulated login, keyboard entry, and 320px/desktop layouts.
+The Google Fonts stylesheet is optional; system fonts provide an offline fallback.
 
 ## Product goals
 
@@ -62,7 +102,7 @@ The MVP should demonstrate a polished end-to-end journey without requiring paid 
 
 ## Planned technology and architecture
 
-Because the repository has no existing framework to preserve, the initial implementation will use:
+The initial implementation uses the following foundation, with the remaining architecture planned:
 
 - React with Vite.
 - JavaScript and JSX.
@@ -73,7 +113,7 @@ Because the repository has no existing framework to preserve, the initial implem
 
 No backend, database, authentication provider, paid API, or client-side secrets are planned for the initial MVP. Demo login is a local prototype convenience and does not provide real account security. Prototype data stays in the current browser and will not synchronize across devices or classmates.
 
-Proposed structure, to be created during implementation:
+Target structure, to expand as features are implemented:
 
 ```text
 src/
@@ -182,7 +222,7 @@ During implementation, prioritize meaningful automated checks for the planning l
 - Preference changes, saved state, and invalid/missing storage recovery.
 - Attendance and carpool consent retained independently per event.
 
-Use a manual walkthrough for the complete journey: homepage → explore → onboarding → dashboard → Assistant → proposal revision → approval → calendar → community → refresh and return. Run available tests and the build after each coherent implementation phase. No build or application tests apply to the current documentation-only stage.
+Use a manual walkthrough for the complete journey as features become available: homepage → explore → onboarding → dashboard → Assistant → proposal revision → approval → calendar → community → refresh and return. Run available tests and the build after each coherent implementation phase. Signup and onboarding currently have automated storage and browser checks.
 
 ## Design direction
 
