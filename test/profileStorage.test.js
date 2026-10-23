@@ -33,3 +33,17 @@ test("invalid storage data fails safely", () => {
   assert.deepEqual(loadSavedProfile(storage), { value: null, available: false });
 });
 
+test("older profiles gain empty background fields and session resume metadata is cleared on reload", () => {
+  const storage = memoryStorage();
+  const olderProfile = createInitialProfile();
+  delete olderProfile.background;
+  delete olderProfile.sectionStatus.background;
+  storage.setItem("msba-opportunity-hub.profile-draft.v1", JSON.stringify(olderProfile));
+  assert.deepEqual(loadProfileDraft(storage).value.background, { text: "", resume: null });
+
+  const current = createInitialProfile();
+  current.background = { text: "Analytics student", resume: { fileName: "resume.pdf", size: 100, storageStatus: "session-selected" } };
+  storage.setItem("msba-opportunity-hub.profile-draft.v1", JSON.stringify(current));
+  assert.deepEqual(loadProfileDraft(storage).value.background, { text: "Analytics student", resume: null });
+});
+

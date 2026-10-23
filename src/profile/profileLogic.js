@@ -72,6 +72,7 @@ export function resolveOptionLabels(ids, options) {
 
 export function sectionHasData(profile, sectionId) {
   switch (sectionId) {
+    case "background": return Boolean(profile.background.text.trim() || profile.background.resume);
     case "interests": return Boolean(profile.interests.topicIds.length || profile.interests.customTopics.length || profile.interests.eventTypeIds.length);
     case "industries": return Boolean(profile.industries.stillExploring || profile.industries.industryIds.length || profile.industries.customIndustries.length);
     case "career": return profile.career.goalIds.length > 0;

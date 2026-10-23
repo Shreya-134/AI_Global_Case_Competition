@@ -12,6 +12,7 @@ import {
   toggleGoal,
   validateCareer,
   validateManualBlock,
+  sectionHasData,
 } from "../src/profile/profileLogic.js";
 
 test("custom entries trim whitespace and reject case-insensitive duplicates", () => {
@@ -68,5 +69,16 @@ test("skipping preserves prior answers and review edits return to review", () =>
   assert.equal(skipped.sectionStatus.carpool, "skipped");
   assert.equal(getStepAfterSave(2, true, 5), 5);
   assert.equal(getStepAfterSave(2, false, 5), 3);
+});
+
+test("background whitespace is empty while text or resume metadata counts as provided", () => {
+  const profile = createInitialProfile();
+  profile.background.text = "   \n ";
+  assert.equal(sectionHasData(profile, "background"), false);
+  profile.background.text = "Career changer";
+  assert.equal(sectionHasData(profile, "background"), true);
+  profile.background.text = "";
+  profile.background.resume = { fileName: "resume.pdf", storageStatus: "session-selected" };
+  assert.equal(sectionHasData(profile, "background"), true);
 });
 

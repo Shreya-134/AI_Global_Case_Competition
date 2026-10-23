@@ -14,6 +14,14 @@ function SummaryCard({ title, items, provided, editLabel, addLabel, emptyText, o
 }
 
 export default function ReviewStep({ config, profile, onEdit, onSubmit, onClear }) {
+  const backgroundText = profile.background.text.trim();
+  const backgroundPreview = backgroundText.length > config.background.reviewPreviewCharacters
+    ? `${backgroundText.slice(0, config.background.reviewPreviewCharacters).trimEnd()}…`
+    : backgroundText;
+  const backgroundItems = [
+    backgroundPreview ? `${config.background.textPreviewLabel}: ${backgroundPreview}` : null,
+    profile.background.resume ? `${config.background.resumePreviewLabel}: ${profile.background.resume.fileName} · ${config.background.selectedStatus}` : null,
+  ].filter(Boolean);
   const topics = [...resolveOptionLabels(profile.interests.topicIds, config.interests.topics), ...profile.interests.customTopics.map((item) => item.label)];
   const eventTypes = resolveOptionLabels(profile.interests.eventTypeIds, config.interests.eventTypes);
   const industries = profile.industries.stillExploring
@@ -39,11 +47,12 @@ export default function ReviewStep({ config, profile, onEdit, onSubmit, onClear 
     <div className="step-stack">
       <div className="completion-banner"><span aria-hidden="true">✓</span><strong>{config.copy.setupComplete}</strong></div>
       <div className="review-grid">
-        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[...(topics.length ? [`${config.review.topicsLabel}: ${topics.join(", ")}`] : []), ...(eventTypes.length ? [`${config.review.eventTypesLabel}: ${eventTypes.join(", ")}`] : [])]} onEdit={() => onEdit(0)} provided={sectionHasData(profile, "interests")} title={config.review.interestsTitle} />
-        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={industries} onEdit={() => onEdit(1)} provided={sectionHasData(profile, "industries")} title={config.review.industriesTitle} />
-        <SummaryCard accent={priority} addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={goals} onEdit={() => onEdit(2)} provided={sectionHasData(profile, "career")} title={config.review.careerTitle} />
-        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[profile.carpool.startingPoint, distance].filter(Boolean)} onEdit={() => onEdit(3)} provided={sectionHasData(profile, "carpool")} title={config.review.carpoolTitle} />
-        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[`${config.review.timezoneLabel}: ${profile.schedule.timezone}`, `${config.review.preferredLabel}: ${preferred.join(", ") || config.copy.notProvided}`, busySummary, ...sourceCounts, ...(profile.schedule.varies ? [config.schedule.variesLabel] : [])]} onEdit={() => onEdit(4)} provided={sectionHasData(profile, "schedule")} title={config.review.scheduleTitle} />
+        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={backgroundItems} onEdit={() => onEdit(0)} provided={sectionHasData(profile, "background")} title={config.review.backgroundTitle} />
+        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[...(topics.length ? [`${config.review.topicsLabel}: ${topics.join(", ")}`] : []), ...(eventTypes.length ? [`${config.review.eventTypesLabel}: ${eventTypes.join(", ")}`] : [])]} onEdit={() => onEdit(1)} provided={sectionHasData(profile, "interests")} title={config.review.interestsTitle} />
+        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={industries} onEdit={() => onEdit(2)} provided={sectionHasData(profile, "industries")} title={config.review.industriesTitle} />
+        <SummaryCard accent={priority} addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={goals} onEdit={() => onEdit(3)} provided={sectionHasData(profile, "career")} title={config.review.careerTitle} />
+        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[profile.carpool.startingPoint, distance].filter(Boolean)} onEdit={() => onEdit(4)} provided={sectionHasData(profile, "carpool")} title={config.review.carpoolTitle} />
+        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[`${config.review.timezoneLabel}: ${profile.schedule.timezone}`, `${config.review.preferredLabel}: ${preferred.join(", ") || config.copy.notProvided}`, busySummary, ...sourceCounts, ...(profile.schedule.varies ? [config.schedule.variesLabel] : [])]} onEdit={() => onEdit(5)} provided={sectionHasData(profile, "schedule")} title={config.review.scheduleTitle} />
       </div>
       <div className="review-actions">
         <Button onClick={onSubmit}>{config.buttons.findEvents}</Button>

@@ -133,6 +133,87 @@
   min-width: 0;
 }
 
+.background-section {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.background-label,
+.resume-upload-card h3 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+}
+
+.background-section textarea {
+  width: 100%;
+  min-height: 11rem;
+  resize: vertical;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  color: var(--color-text);
+  font: inherit;
+  line-height: var(--line-height-body);
+}
+
+.background-section textarea:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.background-field-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.background-field-footer span:last-child {
+  flex: 0 0 auto;
+}
+
+.resume-upload-card.ui-card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  box-shadow: none;
+}
+
+.resume-upload-card p {
+  color: var(--color-text-muted);
+}
+
+.resume-upload-card > .ui-button {
+  width: fit-content;
+}
+
+.resume-selection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-lavender-100);
+}
+
+.resume-selection > div:first-child {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-1);
+}
+
+.resume-selection strong {
+  overflow-wrap: anywhere;
+}
+
+.resume-selection span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
 .profile-fieldset {
   display: grid;
   min-width: 0;
@@ -586,6 +667,18 @@
   .busy-row {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .background-field-footer,
+  .resume-selection {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .resume-upload-card > .ui-button,
+  .resume-selection .inline-actions,
+  .resume-selection .ui-button {
+    width: 100%;
   }
 
   .step-actions__forward,

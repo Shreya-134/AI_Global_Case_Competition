@@ -4,6 +4,8 @@
 
 Edit `src/config/onboardingConfig.js` for headings, helper text, button labels, choice labels, validation messages, and calendar copy. The file includes comments for the most common edits. Product name is shared with the homepage through `src/config/homepageConfig.js`.
 
+The new professional-background and résumé-upload copy and limits are under `onboardingConfig.background`. Change `maxCharacters` for the text limit or `maxFileSizeBytes` for the résumé limit. Résumé validation is implemented in `src/services/resumeFile.js`; the actual selected file is held only in `StudentProfileOnboarding.jsx` and is never stored in `localStorage`.
+
 Examples:
 
 ```js

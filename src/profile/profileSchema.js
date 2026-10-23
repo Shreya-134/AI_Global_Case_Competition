@@ -16,9 +16,11 @@ export function createInitialProfile() {
     setupComplete: false,
     completedAt: null,
     sectionStatus: {
+      background: "not-started",
       interests: "not-started", industries: "not-started", career: "not-started",
       carpool: "not-started", schedule: "not-started",
     },
+    background: { text: "", resume: null },
     interests: { topicIds: [], customTopics: [], eventTypeIds: [] },
     industries: { industryIds: [], customIndustries: [], stillExploring: false },
     career: { goalIds: [], priorityGoalId: null },
@@ -41,6 +43,7 @@ export function hydrateProfile(value) {
   const profile = {
     ...initial, ...value,
     sectionStatus: { ...initial.sectionStatus, ...value.sectionStatus },
+    background: { ...initial.background, ...value.background, resume: null },
     interests: { ...initial.interests, ...value.interests },
     industries: { ...initial.industries, ...value.industries },
     career: { ...initial.career, ...value.career },
