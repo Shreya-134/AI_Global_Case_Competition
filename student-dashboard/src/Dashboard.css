@@ -1,0 +1,315 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+:root {
+  --primary: #210B2C;
+  --secondary: #BC96E6;
+  --accent: #FFD166;
+  --page-bg: #F1EAF9;
+  --card-bg: #FFFCFF;
+  --secondary-text: #675773;
+  --border-color: #E3D7EE;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  display: block;
+  min-width: 320px;
+  background: var(--page-bg);
+  font-family: "Inter", sans-serif;
+}
+
+#root {
+  max-width: none;
+  padding: 0;
+  text-align: left;
+}
+
+.dashboard {
+  min-height: 100vh;
+  padding: 36px 24px;
+  background: var(--page-bg);
+  color: var(--primary);
+  font-family: "Inter", sans-serif;
+}
+
+.dashboard-container {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.dashboard-header {
+  background: var(--primary);
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.dashboard-eyebrow {
+  color: var(--secondary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.dashboard-header h1 {
+  color: var(--card-bg);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 30px;
+  line-height: 1.3;
+  margin: 12px 0 8px;
+}
+
+.dashboard-header p {
+  color: var(--border-color);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Networking statistic cards */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(33, 11, 44, 0.05);
+}
+
+.stat-card p {
+  color: var(--secondary-text);
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.stat-card h2 {
+  color: var(--primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 30px;
+  margin: 0;
+}
+
+/* Chart cards */
+
+.chart-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(33, 11, 44, 0.05);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.section-heading h3 {
+  color: var(--primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  margin: 0;
+}
+
+.section-heading span {
+  color: var(--secondary-text);
+  font-weight: 600;
+}
+
+.section-subtitle {
+  color: var(--secondary-text);
+  font-size: 13px;
+  margin: 8px 0 0;
+}
+
+/* Goal progress */
+
+.progress-track {
+  width: 100%;
+  height: 14px;
+  background: var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--secondary);
+  border-radius: 12px;
+  transition: width 0.3s ease;
+}
+
+.progress-description {
+  color: var(--secondary-text);
+  font-size: 14px;
+  margin: 14px 0 0;
+}
+
+/* Weekly pie chart */
+
+.pie-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+  padding: 20px 0;
+}
+
+.pie-chart {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pie-center {
+  width: 155px;
+  height: 155px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pie-center strong {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: var(--primary);
+  font-size: 29px;
+}
+
+.pie-center span {
+  color: var(--secondary-text);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Pie legend */
+
+.pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.legend-details strong {
+  color: var(--primary);
+  font-size: 14px;
+}
+
+.legend-details p {
+  color: var(--secondary-text);
+  font-size: 13px;
+  margin: 5px 0 0;
+}
+
+/* Footer */
+
+.dashboard-footer {
+  color: var(--secondary-text);
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Mobile responsive */
+
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 18px 12px;
+  }
+
+  .dashboard-header {
+    padding: 24px 18px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 23px;
+  }
+
+  .stats-grid {
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-card h2 {
+    font-size: 22px;
+  }
+
+  .chart-card {
+    padding: 20px 16px;
+  }
+
+  .section-heading h3 {
+    font-size: 17px;
+  }
+
+  .pie-layout {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .pie-chart {
+    width: 220px;
+    height: 220px;
+  }
+
+  .pie-center {
+    width: 130px;
+    height: 130px;
+  }
+
+  .pie-center strong {
+    font-size: 24px;
+  }
+
+  .pie-legend {
+    width: 100%;
+    max-width: 230px;
+  }
+}
