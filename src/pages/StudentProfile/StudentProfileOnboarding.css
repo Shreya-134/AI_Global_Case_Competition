@@ -280,28 +280,46 @@
   gap: var(--space-3);
 }
 
-.schedule-tabs {
+.schedule-methods {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding: var(--space-1);
-  border-radius: var(--radius-md);
-  background: var(--color-lavender-100);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
 }
 
-.schedule-tab {
-  min-height: var(--touch-target-min);
-  padding: var(--space-2) var(--space-4);
-  border: 0;
-  border-radius: calc(var(--radius-md) - var(--space-1));
-  background: transparent;
+.schedule-method {
+  display: grid;
+  min-height: 8rem;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
   color: var(--color-text);
-  font-weight: var(--font-weight-bold);
+  text-align: left;
   cursor: pointer;
 }
 
-.schedule-tab[aria-selected="true"] {
+.schedule-method strong { font-family: var(--font-heading); }
+.schedule-method span { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.schedule-method[aria-pressed="true"] { border-color: var(--color-purple-900); background: var(--color-lavender-100); box-shadow: var(--shadow-sm); }
+.schedule-method:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.method-panel {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   background: var(--color-card);
-  box-shadow: var(--shadow-sm);
+}
+
+.provider-state {
+  width: fit-content;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-lavender-100);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
 }
 
 .form-grid {
@@ -527,6 +545,8 @@
 }
 
 @media (max-width: 46rem) {
+  .schedule-methods { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .schedule-method { min-height: 7.25rem; }
   .onboarding-page {
     padding: var(--space-3);
   }
@@ -582,6 +602,11 @@
   .busy-row .inline-actions .ui-button {
     width: 100%;
   }
+}
+
+@media (max-width: 28rem) {
+  .schedule-methods { grid-template-columns: 1fr; }
+  .schedule-method { min-height: var(--touch-target-min); }
 }
 
 @media (prefers-reduced-motion: reduce) {

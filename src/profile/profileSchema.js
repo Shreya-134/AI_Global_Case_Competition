@@ -26,6 +26,11 @@ export function createInitialProfile() {
     schedule: {
       timezone: getDeviceTimeZone(), varies: false, preferredTimeIds: ["any"], busyBlocks: [],
       importRange: { start: today.toISOString().slice(0, 10), end: rangeEnd.toISOString().slice(0, 10) },
+      providerConnections: {
+        google: { status: "not-connected", selectedCalendarIds: [], calendars: [], lastSuccessfulRefresh: null },
+        apple: { status: "not-connected", selectedCalendarIds: [], calendars: [], lastSuccessfulRefresh: null },
+      },
+      uploadedCalendars: [],
     },
   };
 }
@@ -33,7 +38,7 @@ export function createInitialProfile() {
 export function hydrateProfile(value) {
   const initial = createInitialProfile();
   if (!value || value.schemaVersion !== PROFILE_SCHEMA_VERSION) return initial;
-  return {
+  const profile = {
     ...initial, ...value,
     sectionStatus: { ...initial.sectionStatus, ...value.sectionStatus },
     interests: { ...initial.interests, ...value.interests },
@@ -43,8 +48,17 @@ export function hydrateProfile(value) {
     schedule: {
       ...initial.schedule, ...value.schedule,
       importRange: { ...initial.schedule.importRange, ...value.schedule?.importRange },
+      providerConnections: {
+        google: { ...initial.schedule.providerConnections.google, ...value.schedule?.providerConnections?.google },
+        apple: { ...initial.schedule.providerConnections.apple, ...value.schedule?.providerConnections?.apple },
+      },
+      uploadedCalendars: Array.isArray(value.schedule?.uploadedCalendars) ? value.schedule.uploadedCalendars : [],
     },
   };
+  if (profile.schedule.providerConnections.google.status === "connected" || profile.schedule.providerConnections.google.status === "importing") {
+    profile.schedule.providerConnections.google.status = "reconnection-required";
+  }
+  return profile;
 }
 
 export function createStableId(prefix, label) {

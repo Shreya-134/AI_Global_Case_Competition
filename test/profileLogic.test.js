@@ -5,6 +5,7 @@ import {
   addCustomEntry,
   getStepAfterSave,
   markSectionSkipped,
+  resolveOptionLabels,
   selectIndustry,
   selectPreferredTime,
   selectStillExploring,
@@ -49,9 +50,14 @@ test("manual schedule validation covers times, weekdays, date ranges, and overni
   const invalid = validateManualBlock({ recurrence: "weekly", weekdays: [], startDate: "2026-11-10", endDate: "2026-11-01", startTime: "18:00", endTime: "08:00", timezone: "" });
   assert.ok(invalid.weekdays);
   assert.ok(invalid.endDate);
-  assert.match(invalid.endTime, /Overnight/);
+  assert.equal(invalid.endTime, "end-after-start");
   assert.ok(invalid.timezone);
   assert.deepEqual(validateManualBlock({ recurrence: "once", date: "2026-11-01", startTime: "16:00", endTime: "17:00", timezone: "America/Los_Angeles" }), {});
+});
+
+test("saved option IDs keep working when display labels are edited", () => {
+  const savedIds = ["technology"];
+  assert.deepEqual(resolveOptionLabels(savedIds, [{ id: "technology", label: "Tech" }]), ["Tech"]);
 });
 
 test("skipping preserves prior answers and review edits return to review", () => {

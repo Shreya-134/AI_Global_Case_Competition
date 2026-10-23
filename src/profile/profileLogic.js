@@ -47,23 +47,27 @@ export function validateCareer(career) {
 
 export function validateManualBlock(block) {
   const errors = {};
-  if (!block.startTime) errors.startTime = "Choose a start time.";
-  if (!block.endTime) errors.endTime = "Choose an end time.";
+  if (!block.startTime) errors.startTime = "start-required";
+  if (!block.endTime) errors.endTime = "end-required";
   if (block.startTime && block.endTime && block.endTime <= block.startTime) {
-    errors.endTime = "End time must be after start time. Overnight blocks are not supported.";
+    errors.endTime = "end-after-start";
   }
   if (block.recurrence === "once") {
-    if (!block.date) errors.date = "Choose a date.";
+    if (!block.date) errors.date = "date-required";
   } else {
-    if (!block.weekdays?.length) errors.weekdays = "Choose at least one weekday.";
-    if (!block.startDate) errors.startDate = "Choose a start date.";
-    if (!block.endDate) errors.endDate = "Choose an end date.";
+    if (!block.weekdays?.length) errors.weekdays = "weekday-required";
+    if (!block.startDate) errors.startDate = "start-date-required";
+    if (!block.endDate) errors.endDate = "end-date-required";
     if (block.startDate && block.endDate && block.endDate < block.startDate) {
-      errors.endDate = "End date must be on or after the start date.";
+      errors.endDate = "end-date-order";
     }
   }
-  if (!block.timezone) errors.timezone = "Choose a time zone.";
+  if (!block.timezone) errors.timezone = "timezone-required";
   return errors;
+}
+
+export function resolveOptionLabels(ids, options) {
+  return ids.map((id) => options.find((option) => option.id === id)?.label).filter(Boolean);
 }
 
 export function sectionHasData(profile, sectionId) {
@@ -74,6 +78,8 @@ export function sectionHasData(profile, sectionId) {
     case "carpool": return Boolean(profile.carpool.startingPoint || profile.carpool.meetingDistanceId);
     case "schedule": return Boolean(
       profile.schedule.busyBlocks.length ||
+      profile.schedule.uploadedCalendars?.length ||
+      profile.schedule.providerConnections?.google?.selectedCalendarIds?.length ||
       profile.schedule.varies ||
       profile.schedule.preferredTimeIds.some((id) => id !== "any"),
     );

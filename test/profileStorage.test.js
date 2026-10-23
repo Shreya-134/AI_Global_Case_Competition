@@ -16,11 +16,13 @@ test("draft and saved profile persistence preserve structured answers", () => {
   const storage = memoryStorage();
   const profile = createInitialProfile();
   profile.interests.topicIds = ["ai"];
+  profile.schedule.providerConnections.google.selectedCalendarIds = ["primary"];
   assert.equal(saveProfileDraft(profile, storage), true);
   assert.deepEqual(loadProfileDraft(storage).value.interests.topicIds, ["ai"]);
   assert.equal(saveProfile(profile, storage), true);
   assert.equal(loadProfileDraft(storage).value, null);
   assert.deepEqual(loadSavedProfile(storage).value.interests.topicIds, ["ai"]);
+  assert.deepEqual(loadSavedProfile(storage).value.schedule.providerConnections.google.selectedCalendarIds, ["primary"]);
   assert.equal(clearStoredProfile(storage), true);
   assert.equal(loadSavedProfile(storage).value, null);
 });

@@ -2,6 +2,10 @@ import ICAL from "ical.js";
 
 const MAX_OCCURRENCES = 2000;
 
+export class CalendarImportError extends Error {
+  constructor(code) { super(code); this.code = code; }
+}
+
 function propertyValue(component, name) {
   return component.getFirstPropertyValue(name)?.toString().toUpperCase() ?? "";
 }
@@ -19,33 +23,32 @@ function overlaps(start, end, rangeStart, rangeEnd) {
 }
 
 function toBusyBlock(details, sourceRef) {
-  const summary = details.item.component.getFirstPropertyValue("summary") || "Busy";
   return {
     id: `ics-${sourceRef.replace(/[^a-zA-Z0-9-]/g, "-")}`,
-    label: String(summary), recurrence: "once",
+    label: "Busy", recurrence: "once",
     start: details.startDate.toJSDate().toISOString(), end: details.endDate.toJSDate().toISOString(),
     allDay: Boolean(details.startDate.isDate), timezone: details.startDate.zone?.tzid || "floating",
-    source: "calendar-import", sourceRef,
+    source: "calendar-file", sourceId: "calendar-file", sourceRef,
   };
 }
 
 export function validateCalendarFile(file, maxBytes) {
-  if (!file) return "Choose an .ics calendar file.";
-  if (file.size > maxBytes) return `The file is larger than ${Math.round(maxBytes / 1048576)} MB.`;
-  if (!file.name.toLocaleLowerCase().endsWith(".ics")) return "Choose a file ending in .ics.";
+  if (!file) return "file-required";
+  if (file.size > maxBytes) return "file-too-large";
+  if (!file.name.toLocaleLowerCase().endsWith(".ics")) return "file-extension";
   return null;
 }
 
 export function parseCalendarText(text, { rangeStart, rangeEnd }) {
-  if (!text.includes("BEGIN:VCALENDAR")) throw new Error("This file does not contain a valid iCalendar calendar.");
+  if (!text.includes("BEGIN:VCALENDAR")) throw new CalendarImportError("calendar-invalid");
   const startBoundary = new Date(`${rangeStart}T00:00:00`);
   const endBoundary = new Date(`${rangeEnd}T23:59:59.999`);
-  if (!Number.isFinite(startBoundary.getTime()) || !Number.isFinite(endBoundary.getTime())) throw new Error("Choose a valid import date range.");
-  if (endBoundary < startBoundary) throw new Error("Import end date must follow the start date.");
+  if (!Number.isFinite(startBoundary.getTime()) || !Number.isFinite(endBoundary.getTime())) throw new CalendarImportError("range-invalid");
+  if (endBoundary < startBoundary) throw new CalendarImportError("range-order");
 
   let root;
   try { root = new ICAL.Component(ICAL.parse(text)); }
-  catch { throw new Error("The calendar file could not be parsed. Check that it is a valid .ics export."); }
+  catch { throw new CalendarImportError("parse-failed"); }
 
   const blocks = [];
   const warnings = [];
@@ -91,5 +94,9 @@ export function parseCalendarText(text, { rangeStart, rangeEnd }) {
 export function mergeBusyBlocks(existing, imported) {
   const existingRefs = new Set(existing.map((block) => block.sourceRef).filter(Boolean));
   return [...existing, ...imported.filter((block) => !existingRefs.has(block.sourceRef))];
+}
+
+export function replaceSourceBlocks(existing, sourceId, replacements) {
+  return [...existing.filter((block) => block.sourceId !== sourceId && block.source !== sourceId), ...replacements];
 }
 

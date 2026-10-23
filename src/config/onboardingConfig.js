@@ -2,6 +2,8 @@ import { homepageConfig } from "./homepageConfig";
 
 // Edit onboarding headings, labels, options, and helper text in this file.
 export const onboardingConfig = {
+  // Change the product name here.
+  // The homepage remains the single source of truth; change homepageConfig.productName.
   productName: homepageConfig.productName || "Your Product Name",
   route: "/onboarding",
   eventDiscoveryRoute: null,
@@ -10,9 +12,10 @@ export const onboardingConfig = {
     { id: "industries", heading: "Which industries interest you?", description: "Choose a few fields you would like to explore." },
     { id: "career", heading: "What are you working toward?", description: "Choose your goals, then pick one top priority." },
     { id: "carpool", heading: "Where would you carpool from?", description: "Add a starting location to help match you with USC MSBA classmates nearby who are attending the same event.", optional: true },
-    { id: "schedule", heading: "Make room for the right events.", description: "Import your schedule or add busy times manually." },
+    { id: "schedule", heading: "Make room for the right events.", description: "Connect a calendar, upload a file, or add your busy times manually." },
     { id: "review", heading: "Your profile, at a glance.", description: "Check your preferences before exploring events." },
   ],
+  // Change button labels here.
   buttons: {
     back: "Back", continue: "Continue", skip: "Skip for now", review: "Review profile",
     returnToReview: "Save and return to review", add: "+ Add", edit: "Edit", addSection: "Add",
@@ -53,6 +56,7 @@ export const onboardingConfig = {
   industries: {
     customLabel: "Add your own industry", customPlaceholder: "Type an industry...",
     stillExploringLabel: "Still exploring",
+    // Edit industry options here. Keep each id stable so saved profiles survive label edits.
     options: [
       { id: "technology", label: "Technology" }, { id: "healthcare", label: "Healthcare" },
       { id: "finance", label: "Finance" }, { id: "consulting", label: "Consulting" },
@@ -88,7 +92,13 @@ export const onboardingConfig = {
     ],
   },
   schedule: {
-    tabs: { import: "Import schedule", manual: "Enter manually" },
+    methodsLabel: "Choose how to add your schedule",
+    methods: [
+      { id: "google", title: "Connect Google Calendar", description: "Connect and import only busy time ranges." },
+      { id: "apple", title: "Connect Apple Calendar", description: "Use an exported .ics file in this browser app." },
+      { id: "file", title: "Upload a calendar file", description: "Import a standalone .ics calendar export." },
+      { id: "manual", title: "Enter schedule manually", description: "Add one-time or weekly busy blocks." },
+    ],
     timezoneLabel: "Time zone", variesLabel: "My schedule varies",
     busyHelper: "Busy times help avoid event conflicts.", preferredHeading: "Preferred event times",
     preferredHelper: "Preferences guide suggestions; they are not hard conflicts.",
@@ -98,14 +108,45 @@ export const onboardingConfig = {
       { id: "weekends", label: "Weekends" },
     ],
     googleTitle: "Google Calendar", googleButton: "Connect Google Calendar",
-    googleUnavailable: "Google Calendar is not configured. Export an .ics file from Google Calendar and upload it instead.",
-    googleFallback: "Upload Google .ics export", appleTitle: "Apple Calendar",
-    appleButton: "Import Apple Calendar file", appleHelper: "Export your calendar as an .ics file, then import it here.",
+    googleUnavailable: "Google Calendar is not configured for this environment. Add the public web client ID, or use a calendar file instead.",
+    googlePrivacy: "Only calendar names and busy time ranges are requested. Event names, descriptions, attendees, and locations are not imported.",
+    googleChooseCalendars: "Choose calendars", googleImport: "Preview busy times",
+    googleRefresh: "Refresh busy times", googleDisconnect: "Disconnect Google",
+    lastRefreshLabel: "Last successful refresh",
+    googleDisconnectConfirm: "Disconnect Google Calendar and remove its imported busy times?",
+    googleConnected: "Google Calendar connected. Choose at least one calendar to preview availability.",
+    googleImported: "Google busy times were added to your schedule.",
+    googleFallback: "Use a Google .ics export", appleTitle: "Apple Calendar",
+    appleButton: "Choose Apple .ics file",
+    appleHelper: "A website cannot read Apple Calendar directly. Export a calendar as an .ics file on your device, then choose it here.",
+    appleNativeNote: "Direct Apple Calendar access would require a future native iOS app and EventKit permission flow.",
     uploadTitle: "Calendar file", uploadButton: "Choose file",
     uploadHelper: "Accepts .ics exports from Google, Apple, or another compatible calendar.",
+    replaceFile: "Replace file", removeFile: "Remove selected file",
     rangeStartLabel: "Import events from", rangeEndLabel: "Import events through",
     previewHeading: "Import preview", confirmImport: "Add busy blocks",
     importComplete: "Busy blocks added. The original calendar file was discarded.",
+    importSourceLabel: "Calendar file", googleSourceLabel: "Google Calendar", appleSourceLabel: "Apple Calendar file", manualSourceLabel: "Manual entry",
+    states: {
+      "not-connected": "Not connected", connecting: "Connecting…", connected: "Connected",
+      "permission-denied": "Permission was not granted.", "reconnection-required": "Reconnect to refresh Google availability.",
+      importing: "Importing…", "ready-for-review": "Ready for review", error: "Something went wrong.",
+    },
+    validation: {
+      "file-required": "Choose an .ics calendar file.", "file-too-large": "The file is larger than the allowed size.",
+      "file-extension": "Choose a file ending in .ics.", "calendar-invalid": "This file does not contain a valid iCalendar calendar.",
+      "range-invalid": "Choose a valid import date range.", "range-order": "Import end date must follow the start date.",
+      "parse-failed": "The calendar file could not be parsed. Check that it is a valid .ics export.",
+      "no-events": "No busy events were found in the selected date range.",
+      "calendar-required": "Choose at least one calendar.", "google-cancelled": "Google connection was cancelled.",
+      "google-permission": "Google Calendar permission was not granted.", "google-expired": "Your Google session expired. Reconnect to refresh.",
+      "google-request": "Google Calendar could not be reached. Try again or use a calendar file.",
+      "start-required": "Choose a start time.", "end-required": "Choose an end time.",
+      "end-after-start": "End time must be after start time. Overnight blocks are not supported.",
+      "date-required": "Choose a date.", "weekday-required": "Choose at least one weekday.",
+      "start-date-required": "Choose a start date.", "end-date-required": "Choose an end date.",
+      "end-date-order": "End date must be on or after the start date.", "timezone-required": "Choose a time zone.",
+    },
     maxFileSizeBytes: 2097152,
     manualHeading: "Add a busy block", labelLabel: "Label (optional)", labelPlaceholder: "Class or Work",
     recurrenceLabel: "Repeats", oneTime: "One time", weekly: "Weekly", dateLabel: "Date",

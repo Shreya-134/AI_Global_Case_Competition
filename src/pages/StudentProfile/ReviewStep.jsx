@@ -1,18 +1,5 @@
 import { Button, Card } from "../../components/ui";
-import { sectionHasData } from "../../profile/profileLogic.js";
-
-function labelsFor(ids, options) {
-  return ids.map((id) => options.find((option) => option.id === id)?.label).filter(Boolean);
-}
-
-function summarizeBusyBlock(block) {
-  if (block.source === "calendar-import") {
-    const start = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: block.allDay ? undefined : "short" }).format(new Date(block.start));
-    return `${block.label}: ${start}${block.allDay ? " (all day)" : ""}`;
-  }
-  if (block.recurrence === "weekly") return `${block.label}: ${block.weekdays.join(", ")} · ${block.startTime}–${block.endTime}`;
-  return `${block.label}: ${block.date} · ${block.startTime}–${block.endTime}`;
-}
+import { resolveOptionLabels, sectionHasData } from "../../profile/profileLogic.js";
 
 function SummaryCard({ title, items, provided, editLabel, addLabel, emptyText, onEdit, accent }) {
   return (
@@ -27,17 +14,26 @@ function SummaryCard({ title, items, provided, editLabel, addLabel, emptyText, o
 }
 
 export default function ReviewStep({ config, profile, onEdit, onSubmit, onClear }) {
-  const topics = [...labelsFor(profile.interests.topicIds, config.interests.topics), ...profile.interests.customTopics.map((item) => item.label)];
-  const eventTypes = labelsFor(profile.interests.eventTypeIds, config.interests.eventTypes);
+  const topics = [...resolveOptionLabels(profile.interests.topicIds, config.interests.topics), ...profile.interests.customTopics.map((item) => item.label)];
+  const eventTypes = resolveOptionLabels(profile.interests.eventTypeIds, config.interests.eventTypes);
   const industries = profile.industries.stillExploring
     ? [config.industries.stillExploringLabel]
-    : [...labelsFor(profile.industries.industryIds, config.industries.options), ...profile.industries.customIndustries.map((item) => item.label)];
-  const goals = labelsFor(profile.career.goalIds, config.career.goals);
+    : [...resolveOptionLabels(profile.industries.industryIds, config.industries.options), ...profile.industries.customIndustries.map((item) => item.label)];
+  const goals = resolveOptionLabels(profile.career.goalIds, config.career.goals);
   const priority = config.career.goals.find((goal) => goal.id === profile.career.priorityGoalId)?.label;
   const distance = config.carpool.distances.find((item) => item.id === profile.carpool.meetingDistanceId)?.label;
-  const preferred = labelsFor(profile.schedule.preferredTimeIds, config.schedule.preferredTimes);
+  const preferred = resolveOptionLabels(profile.schedule.preferredTimeIds, config.schedule.preferredTimes);
   const busySummary = `${profile.schedule.busyBlocks.length} ${profile.schedule.busyBlocks.length === 1 ? config.review.busyBlockLabel : config.review.busyBlocksLabel}`;
-  const busyDetails = profile.schedule.busyBlocks.map(summarizeBusyBlock);
+  const countFor = (sources) => profile.schedule.busyBlocks.filter((item) => sources.includes(item.sourceId || item.source)).length;
+  const sourceCounts = [
+    profile.schedule.providerConnections.google.selectedCalendarIds.length
+      ? `${config.schedule.googleSourceLabel}: ${config.schedule.states[profile.schedule.providerConnections.google.status]} · ${countFor(["google"])} ${countFor(["google"]) === 1 ? config.review.busyBlockLabel : config.review.busyBlocksLabel}` : null,
+    profile.schedule.uploadedCalendars.some((item) => item.sourceId === "apple")
+      ? `${config.schedule.appleSourceLabel}: ${countFor(["apple"])} ${countFor(["apple"]) === 1 ? config.review.busyBlockLabel : config.review.busyBlocksLabel}` : null,
+    profile.schedule.uploadedCalendars.some((item) => item.sourceId === "calendar-file") || countFor(["calendar-import"])
+      ? `${config.schedule.importSourceLabel}: ${countFor(["calendar-file", "calendar-import"])} ${countFor(["calendar-file", "calendar-import"]) === 1 ? config.review.busyBlockLabel : config.review.busyBlocksLabel}` : null,
+    countFor(["manual"]) ? `${config.schedule.manualSourceLabel}: ${countFor(["manual"])} ${countFor(["manual"]) === 1 ? config.review.busyBlockLabel : config.review.busyBlocksLabel}` : null,
+  ].filter(Boolean);
 
   return (
     <div className="step-stack">
@@ -47,7 +43,7 @@ export default function ReviewStep({ config, profile, onEdit, onSubmit, onClear 
         <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={industries} onEdit={() => onEdit(1)} provided={sectionHasData(profile, "industries")} title={config.review.industriesTitle} />
         <SummaryCard accent={priority} addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={goals} onEdit={() => onEdit(2)} provided={sectionHasData(profile, "career")} title={config.review.careerTitle} />
         <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[profile.carpool.startingPoint, distance].filter(Boolean)} onEdit={() => onEdit(3)} provided={sectionHasData(profile, "carpool")} title={config.review.carpoolTitle} />
-        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[`${config.review.timezoneLabel}: ${profile.schedule.timezone}`, `${config.review.preferredLabel}: ${preferred.join(", ") || config.copy.notProvided}`, busySummary, ...busyDetails, ...(profile.schedule.varies ? [config.schedule.variesLabel] : [])]} onEdit={() => onEdit(4)} provided={sectionHasData(profile, "schedule")} title={config.review.scheduleTitle} />
+        <SummaryCard addLabel={config.buttons.addSection} editLabel={config.buttons.edit} emptyText={config.copy.notProvided} items={[`${config.review.timezoneLabel}: ${profile.schedule.timezone}`, `${config.review.preferredLabel}: ${preferred.join(", ") || config.copy.notProvided}`, busySummary, ...sourceCounts, ...(profile.schedule.varies ? [config.schedule.variesLabel] : [])]} onEdit={() => onEdit(4)} provided={sectionHasData(profile, "schedule")} title={config.review.scheduleTitle} />
       </div>
       <div className="review-actions">
         <Button onClick={onSubmit}>{config.buttons.findEvents}</Button>

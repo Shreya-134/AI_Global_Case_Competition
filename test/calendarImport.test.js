@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mergeBusyBlocks, parseCalendarText, validateCalendarFile } from "../src/services/calendarImport.js";
+import { mergeBusyBlocks, parseCalendarText, replaceSourceBlocks, validateCalendarFile } from "../src/services/calendarImport.js";
 
 const calendar = `BEGIN:VCALENDAR\r
 VERSION:2.0\r
@@ -40,10 +40,9 @@ END:VCALENDAR`;
 test("ICS import expands bounded recurrence, honors exclusions, and drops private fields", () => {
   const result = parseCalendarText(calendar, { rangeStart: "2026-10-26", rangeEnd: "2026-10-30" });
   assert.equal(result.blocks.length, 4);
-  assert.equal(result.blocks.filter((block) => block.label === "Analytics class").length, 3);
-  assert.equal(result.blocks.some((block) => block.label === "Free time"), false);
-  assert.equal(result.blocks.some((block) => block.label === "Cancelled"), false);
-  assert.equal(result.blocks.find((block) => block.label === "All-day commitment").allDay, true);
+  assert.equal(result.blocks.every((block) => block.label === "Busy"), true);
+  assert.equal(result.blocks.filter((block) => !block.allDay).length, 3);
+  assert.equal(result.blocks.some((block) => block.allDay), true);
   assert.equal("description" in result.blocks[0], false);
   assert.equal("location" in result.blocks[0], false);
 });
@@ -93,8 +92,18 @@ test("reimporting the same file does not duplicate busy blocks", () => {
 });
 
 test("file validation checks extension and size", () => {
-  assert.match(validateCalendarFile({ name: "calendar.txt", size: 10 }, 100), /.ics/);
-  assert.match(validateCalendarFile({ name: "calendar.ics", size: 101 }, 100), /larger/);
+  assert.equal(validateCalendarFile({ name: "calendar.txt", size: 10 }, 100), "file-extension");
+  assert.equal(validateCalendarFile({ name: "calendar.ics", size: 101 }, 100), "file-too-large");
   assert.equal(validateCalendarFile({ name: "calendar.ics", size: 10 }, 100), null);
+});
+
+test("refreshing or removing one source preserves other schedule sources", () => {
+  const existing = [
+    { id: "manual-1", source: "manual", sourceId: "manual" },
+    { id: "google-old", source: "google", sourceId: "google" },
+    { id: "file-1", source: "calendar-file", sourceId: "calendar-file" },
+  ];
+  assert.deepEqual(replaceSourceBlocks(existing, "google", [{ id: "google-new", sourceId: "google" }]).map((item) => item.id), ["manual-1", "file-1", "google-new"]);
+  assert.deepEqual(replaceSourceBlocks(existing, "google", []).map((item) => item.id), ["manual-1", "file-1"]);
 });
 
